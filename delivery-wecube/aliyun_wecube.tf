@@ -81,9 +81,9 @@ resource "alicloud_instance" "instance_wecube_platform" {
 #
 #  provisioner "remote-exec" {
 #    inline = [
-#      "chmod +x /root/application/wecmdb/install-wecmdb.sh",
-#      "dos2unix /root/application/wecmdb/install-wecmdb.sh",
-#	  "/root/application/wecmdb/install-wecmdb.sh"
+#      "chmod +x /root/application/wecube/install-wecube.sh",
+#      "dos2unix /root/application/wecube/install-wecube.sh",
+#	  "/root/application/wecube/install-wecube.sh"
 #    ]
 #  }
 }
