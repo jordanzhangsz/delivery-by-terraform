@@ -94,6 +94,10 @@ resource "alicloud_instance" "instance_wecube_platform" {
     host     = "${alicloud_instance.instance_wecube_platform.public_ip}"
   }
 
+  provisioner "local-exec" {
+    command = "cp -r ../application application"
+  }
+
   provisioner "file" {
     source      = "application"
     destination = "/root/application"
@@ -107,6 +111,10 @@ resource "alicloud_instance" "instance_wecube_platform" {
 	  "cd /root/application/wecube",
 	  "./install-wecube.sh ${alicloud_instance.instance_wecube_platform.private_ip} ${var.docker_registry_password} ${var.mysql_root_password} ${var.wecube_version}"
     ]
+  }
+
+  provisioner "local-exec" {
+    command = "rm -rf application"
   }
 }
 
