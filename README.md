@@ -23,7 +23,7 @@ $git clone https://github.com/jordanzhangsz/delivery-by-terraform.git
 ```
 
 ### 4. 运行Terraform部署应用
-部署之前先配WeCube打包的镜像仓库密码he至环境变量，以及设置mysql的root密码
+部署之前先配WeCube打包的镜像仓库密码至环境变量，以及设置mysql的root密码
 ![terraform app password](docs/images/passwords.png) 
 
 #### 4.1 部署阿里云
