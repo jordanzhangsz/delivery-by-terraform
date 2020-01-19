@@ -66,7 +66,7 @@ $.....
 ##### 4.1.2 初始化Terraform
 ```
 $cd d:\dev\delivery-by-terraform\delivery-wecube\to_tencent_cloud
-$terraform init    -- 安装阿里云的插件, 需要点实践，因国内网速较慢
+$terraform init    -- 安装腾讯云的插件, 需要点实践，因国内网速较慢
 ```
 
 ##### 剩余的步骤跟上面的阿里云部署的步骤4.1.3， 4.1.4类似。
