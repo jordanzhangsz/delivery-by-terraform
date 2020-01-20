@@ -30,7 +30,7 @@ resource "tencentcloud_subnet" "subnet_app" {
   name              = "SUBNET_WECUBE_APP"
   vpc_id            = "${tencentcloud_vpc.vpc.id}"
   cidr_block        = "10.0.0.0/24"
-  availability_zone = "ap-chengdu-1"
+  availability_zone = "ap-guangzhou-3"
 }
 
 #创建安全组
@@ -62,7 +62,7 @@ resource "tencentcloud_security_group_rule" "allow_all_tcp_out" {
 
 #创建WeCube Platform主机
 resource "tencentcloud_instance" "instance_wecube_platform" {
-  availability_zone = "ap-chengdu-1"  
+  availability_zone = "ap-guangzhou-3"  
   security_groups   = "${tencentcloud_security_group.sc_group.*.id}"
   #instance_type     = "S5.SMALL2"
   instance_type     = "S5.MEDIUM4"
@@ -85,7 +85,7 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
-    source      = "application"
+    source      = "../application"
     destination = "/root/application"
   }
 
