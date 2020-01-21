@@ -85,12 +85,18 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
+    content 	= "net.ipv4.ip_forward = 1"
+    destination	= "/etc/sysctl.d/A0-enable_ip_forward_for_docker.conf"
+  }
+
+  provisioner "file" {
     source      = "../application"
     destination = "/root/application"
   }
 
   provisioner "remote-exec" {
     inline = [
+      "sysctl -p /etc/sysctl.d/A0-enable_ip_forward_for_docker.conf",
       "chmod +x /root/application/wecube/*.sh",
 	  "yum install dos2unix -y",
       "dos2unix /root/application/wecube/*",
