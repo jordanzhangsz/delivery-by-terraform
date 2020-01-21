@@ -85,7 +85,7 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
-    content 	= "net.ipv4.ip_forward = 1"
+    source 	= "enable_ip_forward_for_docker.conf"
     destination	= "/etc/sysctl.d/A0-enable_ip_forward_for_docker.conf"
   }
 
@@ -96,12 +96,12 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
 
   provisioner "remote-exec" {
     inline = [
-      "sysctl -p /etc/sysctl.d/A0-enable_ip_forward_for_docker.conf",
       "chmod +x /root/application/wecube/*.sh",
 	  "yum install dos2unix -y",
       "dos2unix /root/application/wecube/*",
 	  "cd /root/application/wecube",
-	  "./install-wecube.sh ${tencentcloud_instance.instance_wecube_platform.private_ip} ${var.docker_registry_password} ${var.mysql_root_password} ${var.wecube_version}"
+	  "./install-wecube.sh ${tencentcloud_instance.instance_wecube_platform.private_ip} ${var.docker_registry_password} ${var.mysql_root_password} ${var.wecube_version}",
+      "sysctl -p /etc/sysctl.d/A0-enable_ip_forward_for_docker.conf"
     ]
   }
 }
