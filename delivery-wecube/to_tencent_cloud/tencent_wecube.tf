@@ -65,7 +65,7 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   availability_zone = "ap-guangzhou-3"  
   security_groups   = "${tencentcloud_security_group.sc_group.*.id}"
   #instance_type     = "S5.SMALL2"
-  instance_type     = "S5.MEDIUM4"
+  instance_type     = "S5.LARGE8"
   image_id          = "img-oikl1tzv"
   instance_name     = "instance_wecube_platform"
   vpc_id            = "${tencentcloud_vpc.vpc.id}"
