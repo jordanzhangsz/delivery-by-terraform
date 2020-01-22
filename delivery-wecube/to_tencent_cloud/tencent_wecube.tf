@@ -30,7 +30,7 @@ resource "tencentcloud_subnet" "subnet_app" {
   name              = "SUBNET_WECUBE_APP"
   vpc_id            = "${tencentcloud_vpc.vpc.id}"
   cidr_block        = "10.0.0.0/24"
-  availability_zone = "ap-chengdu-1"
+  availability_zone = "ap-guangzhou-3"
 }
 
 #创建安全组
@@ -62,10 +62,10 @@ resource "tencentcloud_security_group_rule" "allow_all_tcp_out" {
 
 #创建WeCube Platform主机
 resource "tencentcloud_instance" "instance_wecube_platform" {
-  availability_zone = "ap-chengdu-1"  
+  availability_zone = "ap-guangzhou-3"  
   security_groups   = "${tencentcloud_security_group.sc_group.*.id}"
   #instance_type     = "S5.SMALL2"
-  instance_type     = "S5.MEDIUM4"
+  instance_type     = "S5.LARGE8"
   image_id          = "img-oikl1tzv"
   instance_name     = "instance_wecube_platform"
   vpc_id            = "${tencentcloud_vpc.vpc.id}"
@@ -85,7 +85,12 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
-    source      = "application"
+    source 	= "enable_ip_forward_for_docker.conf"
+    destination	= "/etc/sysctl.d/A0-enable_ip_forward_for_docker.conf"
+  }
+
+  provisioner "file" {
+    source      = "../application"
     destination = "/root/application"
   }
 
@@ -95,7 +100,8 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
 	  "yum install dos2unix -y",
       "dos2unix /root/application/wecube/*",
 	  "cd /root/application/wecube",
-	  "./install-wecube.sh ${tencentcloud_instance.instance_wecube_platform.private_ip} ${var.docker_registry_password} ${var.mysql_root_password} ${var.wecube_version}"
+	  "./install-wecube.sh ${tencentcloud_instance.instance_wecube_platform.private_ip} ${var.docker_registry_password} ${var.mysql_root_password} ${var.wecube_version}",
+      "sysctl -p /etc/sysctl.d/A0-enable_ip_forward_for_docker.conf"
     ]
   }
 }
