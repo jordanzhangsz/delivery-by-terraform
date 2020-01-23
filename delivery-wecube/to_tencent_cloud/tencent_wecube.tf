@@ -16,7 +16,7 @@ variable "mysql_root_password" {
 
 variable "wecube_version" {
   description = "You can override the value by setup os env variable - 'TF_VAR_wecube_version'"
-  default = "20200115152010-5914a5e"
+  default = "20200122120309-d199812"
 }
 
 #创建VPC
@@ -65,7 +65,7 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   availability_zone = "ap-chengdu-1"  
   security_groups   = "${tencentcloud_security_group.sc_group.*.id}"
   #instance_type     = "S5.SMALL2"
-  instance_type     = "S5.MEDIUM4"
+  instance_type     = "S5.LARGE8"
   image_id          = "img-oikl1tzv"
   instance_name     = "instance_wecube_platform"
   vpc_id            = "${tencentcloud_vpc.vpc.id}"
@@ -85,7 +85,7 @@ resource "tencentcloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
-    source      = "application"
+    source      = "../application"
     destination = "/root/application"
   }
 
