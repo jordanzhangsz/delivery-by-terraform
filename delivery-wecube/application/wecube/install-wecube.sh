@@ -12,7 +12,13 @@ echo "OPTIONS=-H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375" >> /etc/sysc
 systemctl start docker.service
 systemctl enable docker.service
 
-docker login -u 100011085647 ccr.ccs.tencentyun.com -p ${docker_registry_password}
+mkdir -p /data/wecube/plugin
+sed "s~{{MYSQL_USER_PASSWORD}}~$mysql_password~g" wecube-db.tpl > wecube-db.yml
+echo "Starting wecube database ..."
+docker-compose -f wecube-db.yml up -d
+sleep 120
+
+echo "Starting wecube platform ..."
 sed -i "s~{{SINGLE_HOST}}~$install_target_host~g" wecube.cfg
 sed -i "s~{{SINGLE_PASSWORD}}~$mysql_password~g" wecube.cfg
 ./deploy_generate_compose.sh wecube.cfg ${wecube_version}

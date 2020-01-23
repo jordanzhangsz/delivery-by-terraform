@@ -99,7 +99,7 @@ resource "alicloud_instance" "instance_wecube_platform" {
   }
 
   provisioner "file" {
-    source      = "application"
+    source      = "../application"
     destination = "/root/application"
   }
 
