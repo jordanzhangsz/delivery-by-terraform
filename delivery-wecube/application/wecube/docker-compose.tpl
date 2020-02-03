@@ -89,8 +89,6 @@ services:
   auth-server:
     image: {{AUTH_SERVER_IMAGE_NAME}}:{{AUTH_SERVER_IMAGE_VERSION}}
     restart: always
-    depends_on:
-      - mysql-auth-server
     volumes:
       - /data/auth_server/log:/log/ 
       - /etc/localtime:/etc/localtime
@@ -104,22 +102,3 @@ services:
       - MYSQL_USER_NAME={{AUTH_SERVER_MYSQL_USER_NAME}}
       - MYSQL_USER_PASSWORD={{AUTH_SERVER_MYSQL_USER_PASSWORD}}
       - AUTH_CUSTOM_PARAM={{AUTH_CUSTOM_PARAM}}
-
-  mysql-auth-server:
-    image: mysql:5.6
-    restart: always
-    command: [
-            '--character-set-server=utf8mb4',
-            '--collation-server=utf8mb4_unicode_ci',
-            '--default-time-zone=+8:00',
-            '--max_allowed_packet=4M',
-            '--lower_case_table_names=1'
-    ]
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - "/root/application/wecube/database/auth-server/:/docker-entrypoint-initdb.d/"
-    environment:
-      - MYSQL_ROOT_PASSWORD={{MYSQL_USER_PASSWORD}}
-      - MYSQL_DATABASE=auth_server
-    ports:
-      - 3308:3306
